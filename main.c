@@ -96,10 +96,35 @@ int removeAresta(Grafo* gr, int origem, int dest, int digrafo){
     return 1;
 }
 
-int main(int argc, char* argv[]) {
-    
-    printf("Hello World\n");
+void buscaProfundidade(Grafo* gr, int ini, int* visitado, int cont){
+    int i;
+    visitado[ini] = cont;
+    for(i=0; i < gr->grau[ini]; i++){
+        if(!visitado[gr->arestas[ini][i]])
+            buscaProfundidade(gr, gr->arestas[ini][i], visitado, cont+1);
+    }
+}
 
+void buscaProfundidade_Grafo(Grafo* gr, int ini, int* visitado){
+    int i, cont = 1;
+    for(i = 0; i < gr->nro_vertice; i++)
+        visitado[i] = 0;
+    buscaProfundidade(gr, ini, visitado, cont);
+}
+
+int main(int argc, char* argv[]) {
+    int eh_digrafo = 1;
+    Grafo* gr = criaGrafo(5,5, 0);
+    insereAresta(gr,0,1,eh_digrafo,0);
+    insereAresta(gr,1,3,eh_digrafo,0);
+    insereAresta(gr,1,2,eh_digrafo,0);
+    insereAresta(gr,2,4,eh_digrafo,0);
+    insereAresta(gr,3,0,eh_digrafo,0);
+    insereAresta(gr,3,4,eh_digrafo,0);
+    insereAresta(gr,3,1,eh_digrafo,0);
+    
+    
+    liberaGrafo(gr);
     return (EXIT_SUCCESS);
 }
 
